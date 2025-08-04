@@ -10,7 +10,7 @@ public class LoginTests extends BaseTest {
     LoginPage loginPage = new LoginPage();
     MainPage mainPage = new MainPage();
 
-    @Test
+    @Test(description = "TC001 - Basarili Kullanici Girisi")
     public void BasariliGiris() {
         loginPage.sendKeysEmail(email)
                 .sendKeysPassword(password)
@@ -20,7 +20,7 @@ public class LoginTests extends BaseTest {
         assertEquals(mainPage.getAccountInfo(),"Hesabım");
     }
 
-    @Test
+    @Test(description = "TC002 - Hatali Kullanici Girisi")
     public void BasarisizGiris() {
         loginPage.sendKeysEmail(email)
                 .sendKeysPassword("hatali")
@@ -29,34 +29,34 @@ public class LoginTests extends BaseTest {
         assertEquals(loginPage.getErrorMessage(),"E-posta adresiniz ve/veya şifreniz hatalı." );
     }
 
-    @Test
-    public void BosGirisKontrolu() throws InterruptedException {
+    @Test(description = "TC003 - Bos Veri Kullanici Girisi")
+    public void BosGirisKontrolu() {
         driver.findElement(By.cssSelector("[class='q-primary q-fluid q-button-medium q-button submit']")).click();
-        Thread.sleep(3000);
+        sleep(3);
         String hataMesaji= driver.findElement(By.cssSelector("[class='message']")).getText();
         Assert.assertEquals(hataMesaji,"Lütfen geçerli bir e-posta adresi giriniz." );
     }
 
-    @Test
-    public void BosSifreKontrolu() throws InterruptedException {
+    @Test(description = "TC004 - Bos Sifre Kullanici Girisi")
+    public void BosSifreKontrolu() {
         driver.findElement(By.id("login-email")).sendKeys("xxx@gmail.com");
         driver.findElement(By.cssSelector("[class='q-primary q-fluid q-button-medium q-button submit']")).click();
-        Thread.sleep(3000);
+        sleep(3);
         String hataMesaji= driver.findElement(By.cssSelector("[class='message']")).getText();
         Assert.assertEquals(hataMesaji,"Lütfen şifrenizi giriniz." );
     }
 
-    @Test
-    public void BosMailKontrolu() throws InterruptedException {
+    @Test(description = "TC005 - Bos Mail Kullanici Girisi")
+    public void BosMailKontrolu() {
         driver.findElement(By.id("login-password-input")).sendKeys("hatalı");
         driver.findElement(By.cssSelector("[class='q-primary q-fluid q-button-medium q-button submit']")).click();
-        Thread.sleep(3000);
+        sleep(3);
         String hataMesaji= driver.findElement(By.cssSelector("[class='message']")).getText();
         Assert.assertEquals(hataMesaji,"Lütfen geçerli bir e-posta adresi giriniz." );
     }
 
-    @Test
-    public void RequiredControl() throws InterruptedException {
+    @Test(description = "TC006 - Bos Alan Kontrolu")
+    public void RequiredControl() {
         loginPage.clickLoginButton();
         sleep(3);
         assertEquals(loginPage.getErrorMessage(),"Lütfen geçerli bir e-posta adresi giriniz." );
@@ -72,13 +72,13 @@ public class LoginTests extends BaseTest {
         assertEquals(mainPage.getAccountInfo(),"Hesabım" );
     }
 
-    @Test
-    public void MinKarakterKontrolu() throws InterruptedException {
+    @Test(description = "TC007 - Mail Minimum Karakter Kontrolu")
+    public void MinKarakterKontrolu() {
         loginPage.sendKeysEmail("t")
                 .clickLoginButton();
         sleep(3);
         assertEquals(loginPage.getErrorMessage(),"Lütfen geçerli bir e-posta adresi giriniz." );        driver.findElement(By.cssSelector("[class='q-primary q-fluid q-button-medium q-button submit']")).click();
-        Thread.sleep(3000);
+        sleep(3);
         loginPage.clearEmail()
                         .sendKeysEmail(email)
                         .sendKeysPassword(password)
